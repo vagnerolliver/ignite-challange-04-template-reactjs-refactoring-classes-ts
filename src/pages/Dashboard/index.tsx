@@ -1,21 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import Header from '../../components/Header';
-import api from '../../services/api';
-import FoodComponent from '../../components/Food';
-import ModalAddFood from '../../components/ModalAddFood';
 import ModalEditFood from '../../components/ModalEditFood';
+import ModalAddFood from '../../components/ModalAddFood';
+import { FoodComponent } from '../../components/Food';
+import Header from '../../components/Header';
+import { Food } from '../../types';
+import api from '../../services/api';
+
 import { FoodsContainer } from './styles';
-
-
-interface Food {
-  id: string,
-  name: string,
-  description: string,
-  price: number,
-  available: boolean,
-  image: string,
-} 
 
 export function Dashboard () {
   let [foods, setFoods] = useState<Food[]>([])
@@ -33,7 +25,6 @@ export function Dashboard () {
 	}, []) 
 
   const handleAddFood = async (food: Food) => {
- 
     try {
       const response = await api.post('/foods', {
         ...food,
@@ -111,7 +102,4 @@ export function Dashboard () {
       </FoodsContainer>
     </>
   );
-   
 };
-
-export default Dashboard;
