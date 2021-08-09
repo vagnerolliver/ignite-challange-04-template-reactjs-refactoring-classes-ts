@@ -8,19 +8,19 @@ import Input from '../Input';
 
 import { Form } from './styles';
  
-// type AddFood = Omit<IFood, 'id' | 'available'>; 
+type AddFood = Omit<IFood, 'id' | 'available'>; 
 
 interface ModalAdddFoodProps {
   isOpen: boolean, 
   setIsOpen: () => void, 
-  handleAddFood: (addFood: IFood) => Promise<void>,
+  handleAddFood: (food: AddFood) => Promise<void>,
 }
 
 export function ModalAddFood({ isOpen, setIsOpen, handleAddFood }: ModalAdddFoodProps) {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = async (data: IFood) => {
-    handleAddFood(data);
+  const handleSubmit = async (food: IFood) => {
+    handleAddFood(food);
     setIsOpen();
   };
   

@@ -8,11 +8,12 @@ import Input from '../Input';
 
 import { Form } from './styles';
 
+type AddFood = Omit<IFood, 'id' | 'available'>; 
 interface ModalAdddFoodProps {
   isOpen: boolean, 
   setIsOpen: () => void, 
-  handleUpdateFood: (data: IFood) => Promise<void>,
-  editingFood: IFood
+  handleUpdateFood: (data: AddFood) => Promise<void>,
+  editingFood: AddFood
 }
 
 export function ModalEditFood ({ 
@@ -23,7 +24,7 @@ export function ModalEditFood ({
 }: ModalAdddFoodProps) {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = async (data: IFood) => {
+  const handleSubmit = async (data: AddFood) => {
     handleUpdateFood(data);
     setIsOpen();
   };

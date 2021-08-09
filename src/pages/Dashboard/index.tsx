@@ -9,6 +9,8 @@ import api from '../../services/api';
 
 import { FoodsContainer } from './styles';
 
+type AddFood = Omit<IFood, 'id' | 'available'>
+
 export function Dashboard () {
   let [foods, setFoods] = useState<IFood[]>([])
   const [editingFood, setEditingFood] = useState<IFood>({} as IFood)
@@ -24,10 +26,10 @@ export function Dashboard () {
     loadFoods();
 	}, []) 
 
-  const handleAddFood = async (addFood: IFood): Promise<void> => {
+  const handleAddFood = async (food: AddFood): Promise<void> => {
     try {
       const response = await api.post('/foods', {
-        ...addFood,
+        ...food,
         available: true,
       });
       setFoods([...foods, response.data]);
@@ -36,7 +38,7 @@ export function Dashboard () {
     }
   }
 
-  const handleUpdateFood = async (food: IFood): Promise<void> => {
+  const handleUpdateFood = async (food: AddFood): Promise<void> => {
     try {
       const foodUpdated = await api.put(
         `/foods/${editingFood.id}`,
