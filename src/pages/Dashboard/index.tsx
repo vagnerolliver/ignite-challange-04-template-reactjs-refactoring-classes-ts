@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 
-import ModalEditFood from '../../components/ModalEditFood';
-import ModalAddFood from '../../components/ModalAddFood';
-import { FoodComponent } from '../../components/Food';
+import { ModalEditFood } from '../../components/ModalEditFood';
+import { ModalAddFood } from '../../components/ModalAddFood';
+import { Food } from '../../components/Food';
 import Header from '../../components/Header';
-import { Food } from '../../types';
+import { IFood } from '../../types';
 import api from '../../services/api';
 
 import { FoodsContainer } from './styles';
 
 export function Dashboard () {
-  let [foods, setFoods] = useState<Food[]>([])
-  const [editingFood, setEditingFood] = useState<Food>({} as Food)
+  let [foods, setFoods] = useState<IFood[]>([])
+  const [editingFood, setEditingFood] = useState<IFood>({} as IFood)
   let [modalOpen, setModalOpen] = useState(false)
   let [editModalOpen, setEditModalOpen] = useState(false)
 
@@ -24,10 +24,10 @@ export function Dashboard () {
     loadFoods();
 	}, []) 
 
-  const handleAddFood = async (food: Food) => {
+  const handleAddFood = async (addFood: IFood): Promise<void> => {
     try {
       const response = await api.post('/foods', {
-        ...food,
+        ...addFood,
         available: true,
       });
       setFoods([...foods, response.data]);
@@ -36,7 +36,7 @@ export function Dashboard () {
     }
   }
 
-  const handleUpdateFood = async (food: Food) => {
+  const handleUpdateFood = async (food: IFood): Promise<void> => {
     try {
       const foodUpdated = await api.put(
         `/foods/${editingFood.id}`,
@@ -69,7 +69,7 @@ export function Dashboard () {
     setEditModalOpen(!editModalOpen);
   }
 
-  const handleEditFood = (food: Food) => {
+  const handleEditFood = (food: IFood) => {
     setEditingFood(food)
     setEditModalOpen(true)
   }
@@ -92,7 +92,7 @@ export function Dashboard () {
       <FoodsContainer data-testid="foods-list">
         {foods &&
           foods.map(food => (
-            <FoodComponent
+            <Food
               key={food.id}
               food={food}
               handleDelete={handleDeleteFood}
